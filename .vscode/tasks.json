@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"build",
+				"apk"
+				],
+			"group": "build",
+			"problemMatcher": [],
+			"label": "flutter: flutter build Furly apk",
+			"detail": ""
+		},
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"build",
+				"ipa"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"label": "flutter: flutter build Furly ipa",
+			"detail": ""
+		},
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"pub",
+				"run",
+				"build_runner",
+				"watch",
+				"--delete-conflicting-outputs"
+			],
+			"group": "test",
+			"problemMatcher": [],
+			"label": "build runner: watch+del conf",
+			"detail": ""
+		}
+	]
+}

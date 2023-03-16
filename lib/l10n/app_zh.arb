@@ -1,0 +1,7 @@
+{
+  "helloWorld": "泥嚎 世界!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "login":"登录"
+}
