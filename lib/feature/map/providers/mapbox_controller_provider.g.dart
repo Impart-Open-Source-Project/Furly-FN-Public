@@ -6,12 +6,12 @@ part of 'mapbox_controller_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$mapBoxControllerHash() => r'6bb52bbf521a7bf4e9bf20d9d325ae24b74241d6';
+String _$mapBoxControllerHash() => r'5f412b9d5973124199e96bbf99105b52590fea1b';
 
 /// See also [MapBoxController].
 @ProviderFor(MapBoxController)
 final mapBoxControllerProvider =
-    NotifierProvider<MapBoxController, MapboxMap?>.internal(
+    AutoDisposeNotifierProvider<MapBoxController, MapboxMap?>.internal(
   MapBoxController.new,
   name: r'mapBoxControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,5 +21,5 @@ final mapBoxControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$MapBoxController = Notifier<MapboxMap?>;
+typedef _$MapBoxController = AutoDisposeNotifier<MapboxMap?>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

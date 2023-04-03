@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../constants/global_constant.dart';
 import '../../../constants/hero_tag.dart';
 import '../../friend_list/friend_list_view.dart';
-import '../../personal_profile/personal_profile.dart';
 import '../../setting/setting.dart';
+import '../../user_profile/personal_profile.dart';
 import '../../watch_link/watch_link_view.dart';
 import 'bottom_navigation_button.dart';
 
@@ -49,6 +49,7 @@ class _ExtendedBottomBarState extends State<ExtendedBottomBar> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final padding = MediaQuery.of(context).padding;
+
     void extendPageView() {
       if (pageViewHeight != size.height - padding.top - 100) {
         // 100 = bottom bar height
@@ -199,7 +200,7 @@ class _ExtendedBottomBarState extends State<ExtendedBottomBar> {
                               Navigator.pop(context);
                             },
                             child: const Icon(
-                              Icons.arrow_back,
+                              Icons.chevron_right,
                               size: 34.0,
                               color: Colors.white,
                             ),

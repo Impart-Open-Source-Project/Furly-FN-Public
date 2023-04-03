@@ -40,6 +40,8 @@ part 'user_model_provider.g.dart';
 
 @riverpod
 class UserModel extends _$UserModel {
+  final passwordValidator =
+      RegExp(r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$');
   SharedPreferences? pref;
   @override
   UserEntity? build() {
@@ -153,26 +155,16 @@ class UserModel extends _$UserModel {
   }
 
   /// return true = update successfully
-  Future<bool> updateUser({
+  Future<bool> updateUserInfo({
     String? username,
-    String? password,
     String? avatar,
   }) async {
     bool result = false;
-    String? encrypt;
-    if (password != null) {
-      encrypt = _encryptPassword(password);
-    }
-    Map<String, String> jsonPara = {};
-    if (username != null) {
-      jsonPara.addAll({'username': username});
-    }
-    if (encrypt != null) {
-      jsonPara.addAll({'password': encrypt});
-    }
-    if (avatar != null) {
-      jsonPara.addAll({'avatar': avatar});
-    }
+
+    Map<String, String?> jsonPara = {
+      'username': username,
+      'avatar': avatar,
+    };
 
     final apiResponse = await ref.dio.post(
       '/user/info',
@@ -185,11 +177,46 @@ class UserModel extends _$UserModel {
     if (response.success) {
       result = true;
       await getUserInfo();
+    } else {
+      final errorMessage = ErrorHandler().translateErrorCode(response.code);
+      ErrorHandler().showErrorSnackBar(errorMessage ?? response.msg);
     }
     return result;
   }
 
-  void logout() async {
+  /// return true = update successfully
+  Future<bool> updatePassword(String oldPassword, newPassword) async {
+    String encryptedOld = _encryptPassword(oldPassword);
+    String encryptedNew = _encryptPassword(newPassword);
+
+    final apiResponse = await ref.dio.post(
+      '/user/password',
+      data: {
+        'oldPassword': encryptedOld,
+        'newPassword': encryptedNew,
+      },
+    );
+
+    final response = ApiHelper.tryParseApiResponse(response: apiResponse);
+    if (response.success && response.code == 0) {
+      return true;
+    } else {
+      final errorMessage = ErrorHandler().translateErrorCode(response.code);
+      ErrorHandler().showErrorSnackBar(errorMessage ?? response.msg);
+    }
+    return false;
+  }
+
+  void tryAutoLogin() async {
+    await ref.read(sharedPreferenceNotifierProvider.notifier).init();
+    final token = pref?.getString(userTokenKey);
+    if (token != null) {
+      await ref.read(apiAdapterProvider.notifier).setToken(token);
+      await getUserInfo();
+    }
+  }
+
+  Future<void> logout() async {
     final apiResponse = await ref.dio.get('/auth/logout');
     final response = ApiHelper.tryParseApiResponse(response: apiResponse);
     if (response.success) {

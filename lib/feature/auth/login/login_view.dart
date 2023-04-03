@@ -37,7 +37,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      // ref.read(userModelProvider.notifier).tryAutoLogin();
+      ref.read(userModelProvider.notifier).tryAutoLogin();
     });
   }
 

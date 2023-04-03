@@ -107,10 +107,21 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      getPermission();
+    });
+  }
+
+// https://github.com/Lyokone/flutterlocation/issues/568
+// https://stackoverflow.com/questions/67663357/flutter-location-package-generates-platform-exception-on-call-to-serviceenabled
+  void getPermission() async {
+    try {
       hasPermission = await checkPermissions();
       setState(() {});
-    });
+    } catch (e) {
+      print('checkPermissions failed, retrying...');
+      getPermission();
+    }
   }
 
   @override
@@ -119,7 +130,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     final userModelData = ref.watch(userModelProvider);
     return Scaffold(
       key: Global.rootScaffoldKey,
-      body: pref == null && hasPermission
+      body: pref == null || !hasPermission
           ? const Center(
               child: CircularProgressIndicator(),
             )

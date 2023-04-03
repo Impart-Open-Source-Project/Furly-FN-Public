@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceNotifier extends StateNotifier<SharedPreferences?> {
   SharedPreferenceNotifier() : super(null) {
-    _init();
+    init();
   }
 
-  void _init() async {
-    state = await SharedPreferences.getInstance();
+  Future<void> init() async {
+    state ??= await SharedPreferences.getInstance();
   }
 }
 
@@ -19,3 +19,4 @@ final sharedPreferenceNotifierProvider =
 const String lastLatKey = 'lastLat';
 const String lastLngKey = 'lastLng';
 const String userTokenKey = 'userToken';
+const String settingPreferenceKey = 'settingPreference';

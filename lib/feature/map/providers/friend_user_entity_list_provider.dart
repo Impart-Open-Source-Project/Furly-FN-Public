@@ -14,7 +14,7 @@ part 'friend_user_entity_list_provider.g.dart';
 @riverpod
 class FriendUserEntityList extends _$FriendUserEntityList {
   late final LocationWsRepository repository;
-  late final SharedPreferences? pref;
+  SharedPreferences? pref;
   @override
   List<UserEntity> build() {
     print('''
@@ -23,6 +23,7 @@ FriendUserEntityList build
 ---------------------------------
 ''');
     pref = ref.watch(sharedPreferenceNotifierProvider);
+
     final token = pref?.getString(userTokenKey);
     fetchData();
     if (token != null) {
@@ -91,5 +92,9 @@ FriendUserEntityList build
       }
     }
     return entityList;
+  }
+
+  void closeWsConnection() {
+    repository.closeConnection();
   }
 }

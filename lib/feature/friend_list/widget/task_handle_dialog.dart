@@ -27,8 +27,8 @@ class TaskHandleDialog extends ConsumerWidget {
               child: const SizedBox.expand(),
             ),
             Positioned(
-              left: 20,
-              right: 20,
+              left: 20.0,
+              right: 20.0,
               child: Container(
                 height: size.height * 0.6,
                 padding: const EdgeInsets.symmetric(

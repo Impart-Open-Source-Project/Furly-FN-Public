@@ -97,29 +97,34 @@ class _FriendListViewState extends ConsumerState<FriendListView> {
             child: ListView.builder(
               itemCount: friendListView.length,
               padding: const EdgeInsets.only(bottom: 10.0),
-              itemBuilder: (context, index) => UserCard(
-                userEntity: friendListView[index],
-                onClick: () {
-                  animateCameraToUser(
-                    mapController,
-                    LngLat(
-                      friendListView[index].lng,
-                      friendListView[index].lat,
-                    ),
-                  );
-                  widget.resetPageViewHeight();
-                  Navigator.pop(context);
-                },
-                onAddFriendClicked: () async =>
-                    await ref.read(friendListViewProvider.notifier).addFriend(
-                          friendListView[index].userId,
-                        ),
-                onDelete: () async {
-                  await ref
-                      .read(friendListViewProvider.notifier)
-                      .deleteFriend(friendListView[index].userId);
-                  ref.read(friendUserEntityListProvider.notifier).fetchData();
-                },
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 10.0,
+                ),
+                child: UserCard(
+                  userEntity: friendListView[index],
+                  onClick: () {
+                    animateCameraToUser(
+                      mapController,
+                      LngLat(
+                        friendListView[index].lng,
+                        friendListView[index].lat,
+                      ),
+                    );
+                    widget.resetPageViewHeight();
+                    Navigator.pop(context);
+                  },
+                  onAddFriendClicked: () async =>
+                      await ref.read(friendListViewProvider.notifier).addFriend(
+                            friendListView[index].userId,
+                          ),
+                  onDelete: () async {
+                    await ref
+                        .read(friendListViewProvider.notifier)
+                        .deleteFriend(friendListView[index].userId);
+                    ref.read(friendUserEntityListProvider.notifier).fetchData();
+                  },
+                ),
               ),
             ),
           ),

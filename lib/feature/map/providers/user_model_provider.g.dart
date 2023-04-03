@@ -6,7 +6,7 @@ part of 'user_model_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userModelHash() => r'e5c1b4ab8a08c1ac9e6cf1e1e5a46676bf7a0edf';
+String _$userModelHash() => r'c789a8a3b03c55553d39580465c71336fc30c303';
 
 /// this provider stores the basic information of user
 ///

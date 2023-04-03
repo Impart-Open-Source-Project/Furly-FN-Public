@@ -11,6 +11,7 @@ class LocationWsRepository {
   late WebSocket socket;
   String authorization;
   bool isWebsocketConnected = false;
+  bool isConnectionClosedByLogout = false;
 
   LocationWsRepository({
     this.authorization = '',
@@ -26,6 +27,7 @@ class LocationWsRepository {
         updateUserLocation,
   }) async {
     try {
+      isConnectionClosedByLogout = false;
       socket = await WebSocket.connect(
         Global.wsDomain,
         headers: {
@@ -55,14 +57,18 @@ class LocationWsRepository {
         },
         onDone: () {
           print('webSocket onDone');
-          ErrorHandler().showErrorSnackBar('websocket onDone, reconnecting');
-          isWebsocketConnected = false;
-          retryOnConnectionFailed(updateUserLocation);
+          if (!isConnectionClosedByLogout) {
+            ErrorHandler().showErrorSnackBar('websocket onDone, reconnecting');
+            isWebsocketConnected = false;
+            retryOnConnectionFailed(updateUserLocation);
+          }
         },
       );
       isWebsocketConnected = true;
       Timer.periodic(const Duration(seconds: 30), (_) {
-        _sendHeartBeatPackage();
+        if (!isConnectionClosedByLogout) {
+          _sendHeartBeatPackage();
+        }
       });
     } on HandshakeException catch (e) {
       print('HandshakeException:$e');
@@ -134,5 +140,10 @@ class LocationWsRepository {
         updateLocationResponse.location?.lat ?? 0,
       );
     }
+  }
+
+  void closeConnection() {
+    isConnectionClosedByLogout = true;
+    socket.close();
   }
 }
