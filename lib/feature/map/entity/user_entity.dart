@@ -1,3 +1,4 @@
+/// if this entity is carrying a searching result, set lat and lng to 999
 class UserEntity {
   String userId;
   String username;
@@ -6,6 +7,7 @@ class UserEntity {
   double lng;
   int? lastUpdated;
   int? lastLogon;
+  late bool isSearchingResult;
   UserEntity({
     required this.username,
     required this.userId,
@@ -14,7 +16,13 @@ class UserEntity {
     required this.lng,
     this.lastUpdated,
     this.lastLogon,
-  });
+  }) {
+    if (lat == 999 && lng == 999) {
+      isSearchingResult = true;
+    } else {
+      isSearchingResult = false;
+    }
+  }
 
   UserEntity copyWith({
     String? username,

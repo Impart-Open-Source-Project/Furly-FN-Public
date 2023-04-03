@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/colors.dart';
+import '../../../utils/error_handle_util.dart';
 import '../../map/providers/user_model_provider.dart';
-import '../../utils/error_handle_util.dart';
 import '../util/auth_util.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
@@ -43,15 +43,21 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                 avatar: avatar,
               );
       if (registerSuccess) {
-        final getUserDataSuccess =
-            await ref.read(userModelProvider.notifier).getUserInfo();
-        if (!getUserDataSuccess) {
-          ErrorHandler().showErrorSnackBar('Login failed');
-        }
+        await ref.read(userModelProvider.notifier).getUserInfo();
       }
     } else {
       ErrorHandler().showErrorSnackBar('Register failed: $errorMessage');
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userIdController.dispose();
+    emailController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    avatarController.dispose();
   }
 
   @override

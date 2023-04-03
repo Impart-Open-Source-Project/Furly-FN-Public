@@ -3,7 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 import '../../constants/global_constant.dart';
+import '../../constants/hero_tag.dart';
 import '../../domain/local_storage/shared_preference_provider.dart';
+import '../../utils/route/hero_route.dart';
+import '../widget/bottom_navigation/extended_bottom_bar.dart';
+import '../widget/bottom_navigation/floating_button.dart';
 import '../widget/fading_edge/fading_edge.dart';
 import 'entity/lng_lat.dart';
 import 'providers/mapbox_controller_provider.dart';
@@ -72,22 +76,9 @@ class _MapBaseState extends ConsumerState<MapBase> {
     final marker = ref.watch(markersProvider);
 
     return Stack(
+      alignment: Alignment.center,
       children: [
         FadingEdge(
-          // child: MapboxMap(
-          //   accessToken: Global.mapboxToken,
-          //   myLocationEnabled: true,
-          //   trackCameraPosition: true,
-          //   onCameraIdle: () =>
-          //       ref.read(markersProvider.notifier).updateMarkerPosition(),
-          //   onMapCreated: onMapCreated,
-          //   onStyleLoadedCallback: () => onStyleLoadedCallback(),
-          //   initialCameraPosition: CameraPosition(
-          //     target: initPosition ?? const LatLng(0, 0),
-          //     zoom: Global.defaultZoomLevel,
-          //   ),
-          //   styleString: Global.mapBoxStyle,
-          // ),
           child: MapWidget(
             mapOptions: MapOptions(
               pixelRatio: 1.0,
@@ -113,20 +104,25 @@ class _MapBaseState extends ConsumerState<MapBase> {
         ),
         if (userCurrentLocationData != null)
           Positioned(
-            bottom: 40.0,
-            left: 0.0,
-            right: 0.0,
-            child: Center(
-              child: SizedBox(
-                width: 60.0,
-                height: 60.0,
-                child: MaterialButton(
-                  //TODO change location to controller's location
-                  onPressed: () async => await animateCameraToUser(
-                      controller, userCurrentLocationData),
-                  child: const Icon(
-                    Icons.location_searching,
-                  ),
+            bottom: 20.0,
+            right: 10.0,
+            child: Hero(
+              tag: HeroTag.bottomNavigationButtonHero.name,
+              child: FloatingButton(
+                size: 74.0,
+                onClick: () async => await animateCameraToUser(
+                    controller, userCurrentLocationData),
+                onLongPress: () {
+                  Navigator.push(
+                    context,
+                    HeroRoute(
+                      builder: (context) => const ExtendedBottomBar(),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.location_searching,
+                  size: 34.0,
                 ),
               ),
             ),

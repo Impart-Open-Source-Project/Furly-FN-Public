@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../feature/utils/error_handle_util.dart';
+import '../../utils/error_handle_util.dart';
 import '../dto/response/api/api_response.dart';
 import '../dto/response/api/base_api_response.dart';
 

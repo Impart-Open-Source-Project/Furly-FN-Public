@@ -3,25 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../../constants/global_constant.dart';
-import '../../feature/utils/error_handle_util.dart';
+import '../../utils/error_handle_util.dart';
 import '../dto/response/ws/base_ws_response.dart';
 import '../dto/response/ws/update_location_ws_response.dart';
 
 class LocationWsRepository {
   late WebSocket socket;
-  String userId;
   String authorization;
   bool isWebsocketConnected = false;
 
-  /// userId should be remove on production,
-  ///
-  /// only use authorization
   LocationWsRepository({
-    this.userId = '',
     this.authorization = '',
   });
-
-// TODO: handle websocket reconnect after disconnect(error)
 
   void createConnection({
     Function(
@@ -36,7 +29,6 @@ class LocationWsRepository {
       socket = await WebSocket.connect(
         Global.wsDomain,
         headers: {
-          'userid': userId,
           'authorization': authorization,
         },
       );

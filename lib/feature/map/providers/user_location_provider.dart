@@ -23,7 +23,8 @@ class UserLocationNotifier extends StateNotifier<LngLat?> {
 
   Location location = Location();
 
-  void _init() async {
+  void _init() {
+    getLastLngLat();
     getFirstLaunchLocation();
     watchLocationUpdate();
     final token = pref?.getString(userTokenKey);
@@ -93,6 +94,14 @@ class UserLocationNotifier extends StateNotifier<LngLat?> {
       }
     }
     return false;
+  }
+
+  void getLastLngLat() {
+    final lng = pref?.getDouble(lastLngKey);
+    final lat = pref?.getDouble(lastLatKey);
+    if (lng != null && lat != null) {
+      state = LngLat(lng, lat);
+    }
   }
 }
 

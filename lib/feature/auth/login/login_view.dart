@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/colors.dart';
 import '../../map/providers/user_model_provider.dart';
-import '../../utils/error_handle_util.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   final Function() onRegisterButtonClicked;
@@ -25,17 +24,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
   void login() async {
     final userId = userIdController.text;
     final password = passwordController.text;
-    print('userId: $userId, pwd: $password');
     final loginSuccess = await ref.read(userModelProvider.notifier).login(
           userId: userId,
           password: password,
         );
     if (loginSuccess) {
-      final getUserDataSuccess =
-          await ref.read(userModelProvider.notifier).getUserInfo();
-      if (!getUserDataSuccess) {
-        ErrorHandler().showErrorSnackBar('Login failed');
-      }
+      await ref.read(userModelProvider.notifier).getUserInfo();
     }
   }
 
@@ -45,6 +39,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // ref.read(userModelProvider.notifier).tryAutoLogin();
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    userIdController.dispose();
+    passwordController.dispose();
   }
 
   @override

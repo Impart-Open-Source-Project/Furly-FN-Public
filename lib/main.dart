@@ -116,7 +116,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final pref = ref.watch(sharedPreferenceNotifierProvider);
-    // TODO: change back to use user model data after api's ready
     final userModelData = ref.watch(userModelProvider);
     return Scaffold(
       key: Global.rootScaffoldKey,

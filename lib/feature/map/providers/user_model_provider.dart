@@ -10,7 +10,7 @@ import '../../../domain/extension/dio_extension.dart';
 import '../../../domain/helper/api_helper.dart';
 import '../../../domain/local_storage/shared_preference_provider.dart';
 import '../../../domain/provider/api_adapter_provider.dart';
-import '../../utils/error_handle_util.dart';
+import '../../../utils/error_handle_util.dart';
 import '../entity/user_entity.dart';
 
 part 'user_model_provider.g.dart';
@@ -78,7 +78,12 @@ class UserModel extends _$UserModel {
             .setToken(response.data?.token ?? '');
         result = true;
       } else {
-        ErrorHandler().showErrorSnackBar(response.msg);
+        final errorMessage = ErrorHandler().translateErrorCode(response.code);
+        if (errorMessage == null) {
+          ErrorHandler().showErrorSnackBar(response.msg);
+        } else {
+          ErrorHandler().showErrorSnackBar(errorMessage);
+        }
       }
     }
     return result;
@@ -103,6 +108,13 @@ class UserModel extends _$UserModel {
         lng: userInfoResponse.location?.lng ?? 0,
       );
       result = true;
+    } else {
+      final errorMessage = ErrorHandler().translateErrorCode(response.code);
+      if (errorMessage == null) {
+        ErrorHandler().showErrorSnackBar(response.msg);
+      } else {
+        ErrorHandler().showErrorSnackBar(errorMessage);
+      }
     }
     return result;
   }
@@ -130,7 +142,12 @@ class UserModel extends _$UserModel {
           .setToken(response.data?.token ?? '');
       result = true;
     } else {
-      ErrorHandler().showErrorSnackBar('Login failed');
+      final errorMessage = ErrorHandler().translateErrorCode(response.code);
+      if (errorMessage == null) {
+        ErrorHandler().showErrorSnackBar(response.msg);
+      } else {
+        ErrorHandler().showErrorSnackBar(errorMessage);
+      }
     }
     return result;
   }

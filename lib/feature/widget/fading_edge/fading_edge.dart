@@ -17,16 +17,19 @@ class FadingEdge extends StatelessWidget {
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            height: height,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.white,
-                  Colors.white.withOpacity(0),
-                ],
+          child: IgnorePointer(
+            ignoring: true,
+            child: Container(
+              height: height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white,
+                    Colors.white.withOpacity(0),
+                  ],
+                ),
               ),
             ),
           ),
@@ -35,16 +38,19 @@ class FadingEdge extends StatelessWidget {
           bottom: 0,
           left: 0,
           right: 0,
-          child: Container(
-            height: height,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.white,
-                  Colors.white.withOpacity(0),
-                ],
+          child: IgnorePointer(
+            ignoring: true,
+            child: Container(
+              height: height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.white,
+                    Colors.white.withOpacity(0),
+                  ],
+                ),
               ),
             ),
           ),

@@ -3,7 +3,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../../constants/global_constant.dart';
 import '../entity/marker_entity.dart';
+import 'avatar.dart';
 
 class Marker extends StatefulWidget {
   final MarkerEntity markerEntity;
@@ -20,8 +22,6 @@ class Marker extends StatefulWidget {
 }
 
 class _MarkerState extends State<Marker> {
-  final _iconSize = 60.0;
-
   bool shouldShowOnScreen(Point? point, double ratio) {
     final size = MediaQuery.of(context).size;
     final realHeight = size.height * ratio;
@@ -45,21 +45,12 @@ class _MarkerState extends State<Marker> {
         ),
         ratio);
     return Positioned(
-      left: widget.markerEntity.position.x / ratio - _iconSize / 2,
-      top: widget.markerEntity.position.y / ratio - _iconSize / 2,
+      left: widget.markerEntity.position.x / ratio - Global.iconSize / 2,
+      top: widget.markerEntity.position.y / ratio - Global.iconSize / 2,
       child: show
-          ? ClipRRect(
-              key: const ValueKey('show'),
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(30.0),
-              child: Image.network(
-                width: _iconSize,
-                height: _iconSize,
-                widget.markerEntity.userEntity.avatar,
-                errorBuilder: (context, error, stackTrace) {
-                  return const ColoredBox(color: Colors.red);
-                },
-              ),
+          ? Avatar(
+              url: widget.markerEntity.userEntity.avatar,
+              iconSize: Global.iconSize,
             )
           : const SizedBox(
               key: ValueKey('NoShow'),
